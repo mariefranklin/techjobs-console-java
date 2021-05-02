@@ -7,9 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -21,6 +19,26 @@ public class JobData {
 
     private static ArrayList<HashMap<String, String>> allJobs;
 
+    public static ArrayList<HashMap<String, String>>  findByValue(String column, String value) {
+        loadData();
+        ArrayList<HashMap<String, String>> outputJobs = new ArrayList<>();
+        for (HashMap<String, String> forJobValue : allJobs) {
+            for (Map.Entry<String, String> newJob : forJobValue.entrySet()) {
+                System.out.println(newJob.getValue());
+                String newJobValue = newJob.getValue();
+                if (newJobValue.toLowerCase().contains(value.toLowerCase())) {
+                    if(!outputJobs.contains(forJobValue)) {
+                        outputJobs.add(forJobValue);
+                    }
+                }
+
+            }
+        }
+        return outputJobs;
+    }
+
+
+
     /**
      * Fetch list of all values from loaded data,
      * without duplicates, for a given column.
@@ -28,6 +46,7 @@ public class JobData {
      * @param field The column to retrieve values from
      * @return List of all of the values of the given field
      */
+
     public static ArrayList<String> findAll(String field) {
 
         // load data, if not already loaded
